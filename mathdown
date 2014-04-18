@@ -1,0 +1,4 @@
+/home/jlewando/Scripts/mathdown-dev/markmath.py $1.mdma > $1.mdtmp 
+pandoc -f markdown -s -o $1.tex $1.mdtmp
+pandoc -f markdown -s -o $1.pdf $1.mdtmp
+rm $1.mdtmp
