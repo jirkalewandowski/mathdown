@@ -12,26 +12,26 @@ DELETE = 3
 INTERMEDIATE = 4
 
 # REGEXPS:
-splitat = "(\s+|\n|,|\.)"
+splitat = "(\s+|\n|\.)"
 splitat = re.compile(splitat)
 
-dollar = re.compile("\\$+")
+dollar = re.compile("(?:(?:[^\\\\]|^)(\\$+))")
 
-beginpreservemath = "(?:\\\\begin\\{align\\*?\\})|(?:\\\\\\[)|(?:\\\\begin\\{math\\})|(?:\\\\begin\\{display\\})"
-endpreservemath = "(?:\\\\end\\{align\\*?\\})|(?:\\\\\\])|(?:\\\\end\\{math\\})|(?:\\\\end\\{display\\})"
+beginpreservemath = "(?:\\\\begin\\{((align)|(equation))\\*?\\})|(?:\\\\\\[)|(?:\\\\begin\\{(display)?math\\})|(?:\\\\begin\\{displaymath\\})"
+endpreservemath = "(?:\\\\end\\{((align)|(equation))\\*?\\})|(?:\\\\\\])|(?:\\\\end\\{(display)math\\})|(?:\\\\end\\{displaymath\\})"
 beginpreservemath = re.compile(beginpreservemath)
 endpreservemath = re.compile(endpreservemath)
 
 end = "(\)?(\.|,)?$)"
-ismath = """((.+\(.*\).*)|(\\\\.+)|(.+(_|\^).+)|(.*\|.*)|([A-Za-z0-9]'+))""" + end 
+ismath = """((.+\(.*\).*)|(\\(?(\\\\[^\\$].*))|(.+(_|\^).+)|(.*\|.*)|([A-Za-z0-9]'+))""" + end 
 isatex = re.compile(ismath)
 isintermediate = """(\d+|[A-Z]|[a-z]|\+|-|=|:|,)""" + end
 isintermediate = re.compile(isintermediate)
 
 # DICTIONARY REPLACINGS:
 repls = []
-repls += [('~~>', "\\\\squigrightarrow")]
-repls += [('~>', "\\\\squigrightarrow")]
+repls += [('~~>', "\\\\rightsquigarrow")]
+repls += [('~>', "\\\\rightsquigarrow")]
 repls += [('-->', "\\\\longrightarrow")]
 repls += [('->', "\\\\rightarrow")]
 repls += [('<--', "\\\\longleftarrow")]
