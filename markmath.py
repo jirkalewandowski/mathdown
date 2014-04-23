@@ -17,8 +17,8 @@ splitat = re.compile(splitat)
 
 dollar = re.compile("(?:(?:[^\\\\]|^)(\\$+))")
 
-beginpreservemath = "(?:\\\\begin\\{((align)|(equation))\\*?\\})|(?:\\\\\\[)|(?:\\\\begin\\{(display)?math\\})|(?:\\\\begin\\{displaymath\\})"
-endpreservemath = "(?:\\\\end\\{((align)|(equation))\\*?\\})|(?:\\\\\\])|(?:\\\\end\\{(display)math\\})|(?:\\\\end\\{displaymath\\})"
+beginpreservemath = "(?:\\\\begin\\{((align)|(equation))\\*?\\})|(```.*)|(?:\\\\\\[)|(?:\\\\begin\\{(display)?math\\})|(?:\\\\begin\\{displaymath\\})"
+endpreservemath = "(?:\\\\end\\{((align)|(equation))\\*?\\})|(```)|(?:\\\\\\])|(?:\\\\end\\{(display)math\\})|(?:\\\\end\\{displaymath\\})"
 beginpreservemath = re.compile(beginpreservemath)
 endpreservemath = re.compile(endpreservemath)
 
