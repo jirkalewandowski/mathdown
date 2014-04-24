@@ -1,24 +1,26 @@
-## Description
+Description
+-----------
 
 Mathdown merges markdown and Latex's math mode syntax in order to provide a simple and fast way for mathematical notetaking. You can write a markdown file as usual and simply use Latex's math commands without any further declaration (like \$ signs) in the text. Mathdown has heuristics to detect this, interprets it as math and outputs a nice .pdf as well as a .tex with your notes.
 
-This tiny, but useful piece of software is [GNU GPL](https://www.gnu.org/copyleft/gpl.html) licensed.
+This tiny, but useful piece of software is GNU GPL (https://www.gnu.org/copyleft/gpl.html) licensed.
 
-## Usage
 
-The input files have by convention the extension .mdma. With the mathdown script in your PATH, in order to create a pdf from the file `example.mdma`, just type
+Usage
+-----
 
-`mathdown example`
+The input files have by convention the extension .mdma. With the mathdown script in your PATH, in order to create a pdf from the file example.mdma, just type
+
+mathdown example
 
 and the .tex as well as .pdf will be generated in the same folder.
 
-For a very simple example file, see the [Info.mdma] in this repository.
-
-## Components and Installation
-
-Mathdown consists of a python script `markmath.py` to detect the math commands heuristically and mark them for the markdown compiler and a bash script `mathdown` that uses [pandoc](http://johnmacfarlane.net/pandoc/) to compile the .tex and .pdf file from the input. It requires working commands `pandoc`, `pdflatex`, and python 3.
-
-When downloading the files from this repository you can simply run `install.sh` to copy the few required files where they belong for the user running the script. The main script `mathdown` is tried to move to /usr/bin/ as well, which works only when you're allowed to sudo. Otherwise you can do that manually or put the file wherever you want. In your home folder a `.mdma` folder is created, containing the python script `markmath.py` and a custom latex template you can modify or enrich with your personal commands.
+For a very simple example file, see the Info.mdma in this repository.
 
 
+Components and Installation
+---------------------------
 
+Mathdown consists of a python script markmath.py to detect the math commands heuristically and mark them for the markdown compiler, and a bash script mathdown that uses pandoc (http://johnmacfarlane.net/pandoc/) to compile the .tex and .pdf file from the input. It requires working commands `pandoc`, `pdflatex`, and python 3.
+
+When downloading the files from this repository you can simply run install.sh to copy the few required files where they belong for the user running the script. The main script mathdown is tried to move to /usr/bin/ as well, which works only when you're allowed to sudo. Otherwise you can do that manually or put the file wherever you want. In your home folder a .mdma folder is created, containing the python script markmath.py and a custom latex template you can modify or enrich with your personal commands.
