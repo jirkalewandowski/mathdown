@@ -12,13 +12,14 @@ DELETE = 3
 INTERMEDIATE = 4
 
 # REGEXPS:
-splitat = "(\s+|\n|\.)"
+splitat = "(\s+|\n)"
 splitat = re.compile(splitat)
 
 dollar = re.compile("(?:(?:[^\\\\]|^)(\\$+))")
+backtick = re.compile("(?:(?:[^\\\\]|^)(`(?:``)))")
 
-beginpreservemath = "(?:\\\\begin\\{((align)|(equation))\\*?\\})|(```.*)|(?:\\\\\\[)|(?:\\\\begin\\{(display)?math\\})|(?:\\\\begin\\{displaymath\\})"
-endpreservemath = "(?:\\\\end\\{((align)|(equation))\\*?\\})|(```)|(?:\\\\\\])|(?:\\\\end\\{(display)math\\})|(?:\\\\end\\{displaymath\\})"
+beginpreservemath = "(?:\\\\begin\\{((align)|(equation)|(verbatim))\\*?\\})|(?:\\\\begin\\{(display)?math\\})|(?:\\\\begin\\{displaymath\\})"
+endpreservemath = "(?:\\\\end\\{((align)|(equation)|(verbatim))\\*?\\})|(?:\\\\end\\{(display)math\\})|(?:\\\\end\\{displaymath\\})"
 beginpreservemath = re.compile(beginpreservemath)
 endpreservemath = re.compile(endpreservemath)
 
@@ -30,6 +31,9 @@ isintermediate = re.compile(isintermediate)
 
 # DICTIONARY REPLACINGS:
 repls = []
+repls += [('(?:-\\((.+)\\)->)', "\\\\xrightarrow{\\1}")]
+repls += [('(?:=\\((.+)\\)=>)', "\\\\stackrel{\\1}{\\\\Rightarrow}")]
+repls += [('(?:=\\((.+)\\)=)', "\\\\stackrel{\\1}{=}")]
 repls += [('~~>', "\\\\rightsquigarrow")]
 repls += [('~>', "\\\\rightsquigarrow")]
 repls += [('-->', "\\\\longrightarrow")]
@@ -68,6 +72,8 @@ tokentype = [tokent for tokent in tokentype if not tokent == DELETE]
 nopen = 0
 dollarisopen = 0
 doubledollarisopen = 0
+backtickisopen = 0
+triplebacktickisopen = 0
 for i in range(len(tokens)):
   
   if nopen > 0 or dollarisopen or doubledollarisopen:
@@ -77,10 +83,14 @@ for i in range(len(tokens)):
   dollarisopen = (dollarisopen + len([x for x in dollarlens if x==1]))%2
   doubledollarisopen = (doubledollarisopen + len([x for x in dollarlens if x==2]))%2
   
+  backticklens = [len(x) for x in re.findall(backtick, tokens[i])]
+  backtickisopen = (backtickisopen + len([x for x in backticklens if x==1]))%2
+  triplebacktickisopen = (triplebacktickisopen + len([x for x in backticklens if x==3]))%2
+  
   nopen += len(re.findall(beginpreservemath, tokens[i]))
   nopen -= len(re.findall(endpreservemath, tokens[i]))
   
-  if nopen > 0 or dollarisopen or doubledollarisopen or len(dollarlens) > 0:
+  if nopen > 0 or dollarisopen or doubledollarisopen or len(dollarlens) > 0 or backtickisopen or triplebacktickisopen or len(backticklens) > 0:
     tokentype[i] = PRESERVEMATH
 
 # substitutions in non-preserved tokens
