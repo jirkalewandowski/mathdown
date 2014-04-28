@@ -15,7 +15,7 @@ INTERMEDIATE = 4
 splitat = "(\s+|\n)"
 splitat = re.compile(splitat)
 
-dollar = re.compile("(?:(?:[^\\\\]|^)(\\$+))")
+dollar = re.compile("(?:.*(?:[^\\\\]|^)(\\$+))")
 backtick = re.compile("(?:(?:[^\\\\]|^)(`(?:``)))")
 
 beginpreservemath = "(?:\\\\begin\\{((align)|(equation)|(verbatim))\\*?\\})|(?:\\\\begin\\{(display)?math\\})|(?:\\\\begin\\{displaymath\\})"
@@ -76,8 +76,10 @@ backtickisopen = 0
 triplebacktickisopen = 0
 for i in range(len(tokens)):
   
-  if nopen > 0 or dollarisopen or doubledollarisopen:
+  if nopen > 0 or dollarisopen or doubledollarisopen or backtickisopen or triplebacktickisopen:
     tokentype[i] = PRESERVEMATH
+    if doubledollarisopen:
+      print('doubledollarisopen: ' + tokens[i])
   
   dollarlens = [len(x) for x in re.findall(dollar, tokens[i])]
   dollarisopen = (dollarisopen + len([x for x in dollarlens if x==1]))%2
