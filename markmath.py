@@ -15,7 +15,7 @@ INTERMEDIATE = 4
 splitat = "(\s+|\n)"
 splitat = re.compile(splitat)
 
-dollar = re.compile("(?:(?:[^\\\\]|^)(\\$+))")
+dollar = re.compile("(?:(?:[^\\\\\\$]|^)((?:\\$\\$)|\\$))")
 backtick = re.compile("(?:(?:[^\\\\]|^)(`(?:``)))")
 
 beginpreservemath = "(?:\\\\begin\\{((align)|(equation)|(verbatim))\\*?\\})|(?:\\\\begin\\{(display)?math\\})|(?:\\\\begin\\{displaymath\\})"
